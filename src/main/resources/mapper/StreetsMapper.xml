@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.vava.address.mapper.StreetsMapper">
+
+    <resultMap type="top.vava.address.entity.Streets" id="StreetsMap">
+        <result property="code" column="code" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="areacode" column="areaCode" jdbcType="INTEGER"/>
+        <result property="citycode" column="cityCode" jdbcType="INTEGER"/>
+        <result property="provincecode" column="provinceCode" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="code" useGeneratedKeys="true">
+        insert into china_area.streets(name, areaCode, cityCode, provinceCode)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.name}, #{entity.areacode}, #{entity.citycode}, #{entity.provincecode})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="code" useGeneratedKeys="true">
+        insert into china_area.streets(name, areaCode, cityCode, provinceCode)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.areacode}, #{entity.citycode}, #{entity.provincecode})
+        </foreach>
+        on duplicate key update
+name = values(name) , areaCode = values(areaCode) , cityCode = values(cityCode) , provinceCode = values(provinceCode)     </insert>
+
+</mapper>
+

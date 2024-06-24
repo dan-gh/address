@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.vava.address.mapper.ProvincesMapper">
+
+    <resultMap type="top.vava.address.entity.Provinces" id="ProvincesMap">
+        <result property="code" column="code" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
+        insert into china_area.provinces(code, name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.code}, #{entity.name})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="" useGeneratedKeys="true">
+        insert into china_area.provinces(code, name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.code}, #{entity.name})
+        </foreach>
+        on duplicate key update
+code = values(code) , name = values(name)     </insert>
+
+</mapper>
+
